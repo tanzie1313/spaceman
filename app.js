@@ -1,5 +1,5 @@
-//spaceman which is like hangman but with a spaceman and if you guess wrong you build the alien spaceship
-
+//spaceman which is like hangman but with a spaceman and if you guess wrong you build the alien spaceship??
+// 
 // 1) Define any variables used to track the state of the game:
 //    guessedWord - the word to guess
 //    spaceship - the spaceship to build
