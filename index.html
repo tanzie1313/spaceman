@@ -5,18 +5,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link href = "style.css" rel = "stylesheet" type = "text/css">
     <title>Spaceman Game</title>
+    <script defer src="js/word-list.js"></script>
+    <script defer src="js/spaceman.js"></script>
+    <img src="images/spaceman.png" alt="Spaceman">
+
 </head>
 <body>
     <div class="container">
        <div class="spaceman text-center">
            <h1>Spaceman Game</h1>
            <p>Guess the word</p>
+           <p>Number of Incorrect Guesses Allowed: <span id="incorrectGuessesAllowed">7</span></p>
            <p>Incorrect Guesses: <span id="incorrectGuesses">0</span></p>
            <p>Word: <span id="word">_ _ _ _ _ _ _</span></p>
            <p>Guess a letter: <input type="text" id="guess" maxlength="1"></p>
            <button onclick="guessLetter()">Guess</button>
            <p id="message"></p>
            <p id="playAgain" style="display: none;"><button onclick="playAgain()">Play Again</button></p>
+
     </div>
     
 </body>
