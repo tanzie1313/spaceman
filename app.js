@@ -86,13 +86,17 @@ const wordList = [
 ];
 const maxWrongGuesses = 6;
 const alphabet = 'abcdefghijklmnopqrstuvwxyz';
-const sounds {
-    win: new Audio('sounds/win.mp3'),
-    lose: new Audio('sounds/lose.mp3'),
-    correct: new Audio('sounds/correct.mp3'),
-    incorrect: new Audio('sounds/incorrect.mp3')
-};
 /*-------------------------------- Variables --------------------------------*/
+let guessedWord, spaceship, wrongLetters, currentWord;
+let wrongGuesses = 0;
+let correctGuesses = 0;
+let guessesRemaining = maxWrongGuesses;
+let lettersInWord = 0;
+let lettersGuessedNotInWord = 0;
+let lettersGuessedInWord = 0;
+let lettersRemaining = 0;
+
+
 
 /*------------------------ Cached Element References ------------------------*/
 
