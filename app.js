@@ -121,11 +121,15 @@ const keyEl = document.querySelectorAll('.key');
         }
         )
         gameResultEl.classList.add('hidden');
+        // hintEl.classList.remove('hidden');
        
         console.log(currentWord);
+        console.log(wordHint);
     }
     function showHint() {
+        wordHint = wordList[randomIndex].hint;
         hintEl.textContent = wordHint;
+
     }
 
         
