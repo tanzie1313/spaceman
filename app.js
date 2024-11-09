@@ -179,12 +179,18 @@ const keyEl = document.querySelectorAll('.key');
     });
     playAgainBtn.addEventListener('click', resetGame);
 
-    //current letter selected by player  didplay letter in placeholder otherwise chances are descresed
+    //need to render fuction
+    // function render() {
+        // wordDispleyEl.innerHTML = currentWord
+        //     .split('')
+        //     .map(letter => guessedLetters.includes(letter) ? letter : '_')
+        //     .join('');
+        // chancesDisplayEl.textContent = remainingGuesses;
+      //revist after work. //populate hints //chances left decreased as number goes.(populated)
 
   
 
-    //console.log(wordPlaceholder);
-    //word guessed by player then congrats message
+    
  
 
 //render the game state 
