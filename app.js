@@ -41,7 +41,7 @@
 //    when player loses or doesn't win select the right letter the spaceship will be built
 //   clearly indicate a win adn a loss
 /*-------------------------------- Constants --------------------------------*/
-const alphabet = 'abcdefghijklmnopqrstuvwxyz';
+const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 const maxWrongGuesses = 6;
 const wordList = [
     {
@@ -80,120 +80,127 @@ const wordList = [
         word: 'universe',
         hint: 'all of space and everything in it'
     },
-    
-            {
-                word: 'blackhole',
-                hint: 'a region of space having a gravitational field so intense that no matter or radiation can escape'
-            }
-        ];
+
+    {
+        word: 'blackhole',
+        hint: 'a region of space having a gravitational field so intense that no matter or radiation can escape'
+    }
+];
 
 
 /*-------------------------------- Variables --------------------------------*/
 let currentWord; // the word to guess
 let wrongLetters; // the letters guessed that are not in the word
 let guessedLetters; // the letters guessed that are in the word
-let remainingGuesses; // the number of guesses remaining
+let remainingGuesses; // the number of guesses remlaining
 let wordHint; // the hint for the word to guess
+let correctGuesses; // 
 /*------------------------ Cached Element References ------------------------*/
 const wordDispleyEl = document.querySelector('.word-display');
 const chancesDisplayEl = document.querySelector('.nums-chances');
 const playAgainBtn = document.querySelector('.play-again');
-const HintEl = document.querySelector('.hint');
+const hintEl = document.querySelector('.hint');
 const gameResultEl = document.querySelector('.game-result');
-const keyEl = document.querySelector('.key');
+const keyEl = document.querySelectorAll('.key');
 /*-------------------------------- Functions --------------------------------*/
-init(); //initialize the game
-function init() {
-    generateWord();
-    render();
 
-//generate random word  from wordlist and a hint
-function generateWord() {
-    const randomIndex = Math.floor(Math.random() * wordList.length);
-    currentWord = wordList[randomIndex].word;
-    wordHint = wordList[randomIndex].hint;
-    guessedLetters = [];
-    wrongLetters = [];
-    remainingGuesses = maxWrongGuesses;
-    keyEl.forEach(key => {
-        key.disabled = false;
-    }
-    )
     
-    render();
-    //console.log(currentWord);
-}
 
-function render() {
-    const wordPlaceholder = currentWord.split('').map(letter => {
-        return guessedLetters.includes(letter) ? letter : '_';
-    }).join('');
-    wordDispleyEl.textContent = wordPlaceholder;
-    chancesDisplayEl.textContent = `Remaining guesses: ${remainingGuesses}`;
-    HintEl.textContent = `Hint: ${wordHint}`;
-
-    if (remainingGuesses <= 0) {
-        gameResultEl.textContent = `Game Over! The word was: ${currentWord}`;
-    } else if (!wordPlaceholder.includes('_')) {
-        gameResultEl.textContent = 'Congratulations! You guessed the word!';
-    } else {
-        gameResultEl.textContent = '';
+    //generate random word  from wordlist and a hint
+    function chooseWord() {
+        const randomIndex = Math.floor(Math.random() * wordList.length);
+        currentWord = wordList[randomIndex].word;
+        wordHint = wordList[randomIndex].hint;
+        guessedLetters = [];
+        wrongLetters = [];
+        correctGuesses = [];
+        remainingGuesses = maxWrongGuesses;
+        keyEl.forEach(key => {
+          key.classList.remove('hidden');
+          key.addEventListener('click', ()=> handleKeyClicked(key.id));
+        }
+        )
+        gameResultEl.classList.add('hidden');
+       
+        console.log(currentWord);
     }
-}
-
-function handleGuess(letter) {
-    if (guessedLetters.includes(letter) || wrongLetters.includes(letter)) {
-        return;
+    function showHint() {
+        hintEl.textContent = wordHint;
     }
 
-    if (currentWord.includes(letter)) {
-        guessedLetters.push(letter);
-    } else {
-        wrongLetters.push(letter);
-        remainingGuesses--;
-    }
-    render();
+        
+    function handleGuess(letter) {
+        if (!guessedLetters.includes(letter) && !wrongLetters.includes(letter)) {
+            if (currentWord.includes(letter)) {
+                guessedLetters.push(letter);
+            } else {
+                wrongLetters.push(letter);
+                remainingGuesses--;
+            }
+            render();
+        }
+    
+        render();
 
-    if (remainingGuesses <= 0 || !currentWord.split('').some(letter => !guessedLetters.includes(letter))) {
-        playAgainBtn.style.display = 'block';
+        if (remainingGuesses <= 0 || !currentWord.split('').some(letter => !guessedLetters.includes(letter))) {
+            playAgainBtn.style.display = 'block';
+        }
     }
-}
+    
 
-function resetGame() {
-    init();
-    playAgainBtn.style.display = 'none';
-}
-document.addEventListener('keydown', (event) => {
-    const letter = event.key.toLowerCase();
-    if (letter.match(/^[a-z]$/)) {
-        handleGuess(letter);
+    function resetGame() {
+        init();
+        playAgainBtn.style.display = 'none';
     }
-});
-playAgainBtn.addEventListener('click', resetGame);
+    document.addEventListener('keydown', (event) => {
+        const letter = event.key.toLowerCase();
+        if (letter.match(/^[a-z]$/)) {
+            handleGuess(letter);
+        }
+    });
+    playAgainBtn.addEventListener('click', resetGame);
 
     //current letter selected by player  didplay letter in placeholder otherwise chances are descresed
 
-    wordDispleyEl.textContent = wordPlaceholder;
+  
 
     //console.log(wordPlaceholder);
     //word guessed by player then congrats message
-    if (wordPlaceholder === currentWord) {
-        alert('Congratulations! You guessed the word!');
-    }
-}
+ 
+
 //render the game state 
 //i want to disable button if key is already pressed
-function  handlekeyClicked(event){
-    if (event.key === 'Enter') {
-        generateWord();
+function handleKeyClicked(key) {
+    if (guessedLetters.includes(key))  {
+        return;
     }
-    if (alphabet.includes(event.key)) {
-        handlePlayerSelection(event.key);
+    
+    guessedLetters.push(key);
+    if (!currentWord.includes(key)) {
+        remainingGuesses--; 
+    
     }
-} 
+    if (currentWord.includes(key) && guessedLetters.includes(key)) {
+      console.log(key); 
+        correctGuesses.push(key);
+        console.log(correctGuesses.join(''));
+    }
+    const currentKey = document.getElementById(key);
+    currentKey.classList.add('hidden');
+console.log(key);
+   if  ((currentWord.length === correctGuesses.length) || (remainingGuesses <= 0)) {
+    gameResultEl.classList.remove('hidden');
+   }
+}
 
-document.querySelector('main').addEventListener('click', handlekeyClicked);
-document.querySelector('main').addEventListener('click', handlekeyClicked);
-document.querySelector('main').adEventlistener(  'click',handlekeyClicked);
-playAgainBtn.addEventListener('click', generateWord);
+
+    
+
+function init() {
+    chooseWord();
+}
+
+
+playAgainBtn.addEventListener('click', init);
 document.querySelector
+init();
