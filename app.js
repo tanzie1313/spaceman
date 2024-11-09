@@ -137,8 +137,16 @@ const keyEl = document.querySelectorAll('.key');
         } else if (wordCompleted()) {
           showGameOver(true);
         }
-    }
 
+    }  //not correct revist after work
+    function showGameOver(win) {
+        const resultText = win ? 'You Win!' : 'Game Over!';
+        const correctAnswer = currentWord;
+        gameResultEl.textContent = `${resultText} The word was ${correctAnswer}`;
+        gameResultEl.classList.remove('hidden');
+    } 
+
++
         
      function handleGuess(letter) { 
         if (!guessedLetters.includes(letter) && !wrongLetters.includes(letter)) {
