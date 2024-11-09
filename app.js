@@ -82,8 +82,8 @@ const wordList = [
     },
 
     {
-        word: 'blackhole',
-        hint: 'a region of space having a gravitational field so intense that no matter or radiation can escape'
+        word: 'star',
+        hint: 'a fixed luminous point in the night sky that is a large, remote incandescent body like the sun'
     }
 ];
 
@@ -131,9 +131,16 @@ const keyEl = document.querySelectorAll('.key');
         hintEl.textContent = wordHint;
 
     }
+    function checkGameStatus() {
+        if (wrongGuesses === 6) {
+          showGameOver(false);
+        } else if (wordCompleted()) {
+          showGameOver(true);
+        }
+    }
 
         
-    function handleGuess(letter) {
+     function handleGuess(letter) { 
         if (!guessedLetters.includes(letter) && !wrongLetters.includes(letter)) {
             if (currentWord.includes(letter)) {
                 guessedLetters.push(letter);
