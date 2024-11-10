@@ -77,8 +77,8 @@ const wordList = [
         hint: 'a system of millions or billions of stars'
     },
     {
-        word: 'universe',
-        hint: 'all of space and everything in it'
+        word: 'world',
+        hint: 'the earth, together with all of its countries and peoples'
     },
 
     {
@@ -95,6 +95,7 @@ let guessedLetters; // the letters guessed that are in the word
 let remainingGuesses; // the number of guesses remlaining
 let wordHint; // the hint for the word to guess
 let correctGuesses; // 
+let gameWon = false;
 /*------------------------ Cached Element References ------------------------*/
 const wordDispleyEl = document.querySelector('.word-display');
 const chancesDisplayEl = document.querySelector('.nums-chances');
@@ -102,53 +103,67 @@ const playAgainBtn = document.querySelector('.play-again');
 const hintEl = document.querySelector('.hint');
 const gameResultEl = document.querySelector('.game-result');
 const keyEl = document.querySelectorAll('.key');
+const gameWonEl = document.querySelector('.content h4');
+const gameWonTextEl = document.querySelector('.content p');
+ const chancesLeftEl = document.querySelector(' .num-chances b');
 /*-------------------------------- Functions --------------------------------*/
 
-    
 
-    //generate random word  from wordlist and a hint
-    function chooseWord() {
-        const randomIndex = Math.floor(Math.random() * wordList.length);
-        currentWord = wordList[randomIndex].word;
-        wordHint = wordList[randomIndex].hint;
-        guessedLetters = [];
-        wrongLetters = [];
-        correctGuesses = [];
-        remainingGuesses = maxWrongGuesses;
-        keyEl.forEach(key => {
-          key.classList.remove('hidden');
-          key.addEventListener('click', ()=> handleKeyClicked(key.id));
-        }
-        )
-        gameResultEl.classList.add('hidden');
-        // hintEl.classList.remove('hidden');
-       
-        console.log(currentWord);
-        console.log(wordHint);
+
+//generate random word  from wordlist and a hint
+function chooseWord() {
+    const randomIndex = Math.floor(Math.random() * wordList.length);
+    currentWord = wordList[randomIndex].word;
+    wordHint = wordList[randomIndex].hint;
+    guessedLetters = [];
+    wrongLetters = [];
+    correctGuesses = [];
+    remainingGuesses = maxWrongGuesses;
+    keyEl.forEach(key => {
+        key.classList.remove('hidden');
+        key.addEventListener('click', () => handleKeyClicked(key.id));
     }
-    function showHint() {
-        wordHint = wordList[randomIndex].hint;
-        hintEl.textContent = wordHint;
+    )
+    gameResultEl.classList.add('hidden');
+    // hintEl.classList.remove('hidden');
 
+    console.log(currentWord);
+    console.log(wordHint);
+}
+function showHint() {//question for mentor
+    wordHint = wordList[randomIndex].hint;
+    hintEl.textContent = wordHint;
+
+}
+
+
+// function checkGameStatus() {
+
+    // if (wrongGuesses === 6) {
+    //     showGameOver(false);
+    // } else if (gameWon) {
+    //     showGameOver(true);
+    // }
+
+  //not correct revist after work
+function showGameOver(result) {
+    const resultText = result ? 'You Win!' : 'Game Over!';
+    const correctAnswer = currentWord;
+    gameWonEl.textContent = resultText;
+    if (result) { 
+        gameWonTextEl.textContent = "You saved the spaceman!";
     }
-    function checkGameStatus() {
-        if (wrongGuesses === 6) {
-          showGameOver(false);
-        } else if (wordCompleted()) {
-          showGameOver(true);
-        }
-
-    }  //not correct revist after work
-    function showGameOver(win) {
-        const resultText = win ? 'You Win!' : 'Game Over!';
-        const correctAnswer = currentWord;
-        gameResultEl.textContent = `${resultText} The word was ${correctAnswer}`;
-        gameResultEl.classList.remove('hidden');
-    } 
+    else { 
+    gameWonTextEl.textContent = `${resultText} The word was: `;
+    let gameWonAnswerEl = document.createElement('b');
+    gameWonAnswerEl.textContent = correctAnswer;
+    gameWonTextEl.appendChild(gameWonAnswerEl);
+    }
+}
 
 +
-        
-     function handleGuess(letter) { 
+
+    function handleGuess(letter) {
         if (!guessedLetters.includes(letter) && !wrongLetters.includes(letter)) {
             if (currentWord.includes(letter)) {
                 guessedLetters.push(letter);
@@ -156,76 +171,86 @@ const keyEl = document.querySelectorAll('.key');
                 wrongLetters.push(letter);
                 remainingGuesses--;
             }
-            render();
+            // render();
         }
-    
-        render();
+
+        // render();
 
         if (remainingGuesses <= 0 || !currentWord.split('').some(letter => !guessedLetters.includes(letter))) {
             playAgainBtn.style.display = 'block';
         }
     }
-    
 
-    function resetGame() {
-        init();
-        playAgainBtn.style.display = 'none';
+
+function resetGame() {
+    init();
+    playAgainBtn.style.display = 'none';
+}
+document.addEventListener('keydown', (event) => {
+    const letter = event.key.toLowerCase();
+    if (letter.match(/^[a-z]$/)) {
+        handleGuess(letter);
     }
-    document.addEventListener('keydown', (event) => {
-        const letter = event.key.toLowerCase();
-        if (letter.match(/^[a-z]$/)) {
-            handleGuess(letter);
-        }
-    });
-    playAgainBtn.addEventListener('click', resetGame);
+});
+playAgainBtn.addEventListener('click', resetGame);
 
-    //need to render fuction
-    // function render() {
-        // wordDispleyEl.innerHTML = currentWord
-        //     .split('')
-        //     .map(letter => guessedLetters.includes(letter) ? letter : '_')
-        //     .join('');
-        // chancesDisplayEl.textContent = remainingGuesses;
-      //revist after work. //populate hints //chances left decreased as number goes.(populated)
+//need to render fuction
+// function render() {
+// wordDispleyEl.innerHTML = currentWord
+//     .split('')
+//     .map(letter => guessedLetters.includes(letter) ? letter : '_')
+//     .join('');
+// chancesDisplayEl.textContent = remainingGuesses;
+//revist after work. //populate hints //chances left decreased as number goes.(populated)
 
-  
 
-    
- 
+
+
+
 
 //render the game state 
 //i want to disable button if key is already pressed
 function handleKeyClicked(key) {
-    if (guessedLetters.includes(key))  {
+    if (guessedLetters.includes(key)) {
         return;
     }
-    
+
     guessedLetters.push(key);
     if (!currentWord.includes(key)) {
-        remainingGuesses--; 
-    
+        remainingGuesses--;
+        chancesLeftEl.textContent = remainingGuesses;
+
     }
     if (currentWord.includes(key) && guessedLetters.includes(key)) {
-      console.log(key); 
+        console.log(key);
         correctGuesses.push(key);
         console.log(correctGuesses.join(''));
     }
     const currentKey = document.getElementById(key);
     currentKey.classList.add('hidden');
-console.log(key);
-   if  ((currentWord.length === correctGuesses.length) || (remainingGuesses <= 0)) {
-    gameResultEl.classList.remove('hidden');
-   }
+    console.log(key);
+    if (currentWord.length === correctGuesses.length) {
+        gameResultEl.classList.remove('hidden');
+        showGameOver(true);
+
+    }
+    else if (remainingGuesses <= 0) {
+        gameResultEl.classList.remove('hidden');
+        showGameOver(false);
+
+    }
 }
 
 
-    
+
 
 function init() {
     chooseWord();
+    chancesLeftEl.textContent = remainingGuesses;
+
 }
 
 
 playAgainBtn.addEventListener('click', init);
-document.querySelector
+
 init();
