@@ -100,7 +100,7 @@ let gameWon = false;
 const wordDispleyEl = document.querySelector('.word-display');
 const chancesDisplayEl = document.querySelector('.nums-chances');
 const playAgainBtn = document.querySelector('.play-again');
-const hintEl = document.querySelector('.hint');
+const hintEl = document.querySelector('.hint-text');
 const gameResultEl = document.querySelector('.game-result');
 const keyEl = document.querySelectorAll('.key');
 const gameWonEl = document.querySelector('.content h4');
@@ -247,7 +247,7 @@ function handleKeyClicked(key) {
 function init() {
     chooseWord();
     chancesLeftEl.textContent = remainingGuesses;
-
+    hintEl.textContent = wordHint;
 }
 
 
