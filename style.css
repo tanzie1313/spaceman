@@ -47,6 +47,7 @@ body {
     letter-spacing: 2rem;
     font-size: 7rem;
     margin-bottom: 2rem;
+    font-color: black;
   }
  
   
@@ -66,7 +67,7 @@ body {
   }
   
   :where(.game-result, #keyboard) button {
-    color: white;
+    color: rgb(6, 0, 0);
     background-color: #0bea37;
     font-size: 1rem;
     font-weight: 650;

@@ -45,16 +45,16 @@ const alphabet = 'abcdefghijklmnopqrstuvwxyz'.split('');
 const maxWrongGuesses = 6;
 const wordList = [
     {
-        word: 'astronaut',
-        hint: 'a person who is trained to travel into outer space'
+        word: 'space',
+        hint: ' the vast expanse that exists beyond the earth'
     },
     {
         word: 'alien',
         hint: 'a creature from outer space'
     },
     {
-        word: 'spaceship',
-        hint: 'a vehicle used for travel in outer space'
+        word: 'rocket',
+        hint: 'a cylindrical projectile that can be propelled to a great height or distance by the combustion of its contents'
     },
     {
         word: 'planet',
@@ -96,11 +96,12 @@ let remainingGuesses; // the number of guesses remlaining
 let wordHint; // the hint for the word to guess
 let correctGuesses; // 
 let gameWon = false;
+let correctLetters;
 /*------------------------ Cached Element References ------------------------*/
 const wordDispleyEl = document.querySelector('.word-display');
 const chancesDisplayEl = document.querySelector('.nums-chances');
 const playAgainBtn = document.querySelector('.play-again');
-const hintEl = document.querySelector('.hint-text');
+const hintEl = document.querySelector('.hint-text b');
 const gameResultEl = document.querySelector('.game-result');
 const keyEl = document.querySelectorAll('.key');
 const gameWonEl = document.querySelector('.content h4');
@@ -130,11 +131,14 @@ function chooseWord() {
     console.log(currentWord);
     console.log(wordHint);
 }
-function showHint() {//question for mentor
+function showHint() {  //generate random word  from wordlist and a hint
     wordHint = wordList[randomIndex].hint;
     hintEl.textContent = wordHint;
 
 }
+// guessed letters correct = display letter
+// let wordDisipleyEl = ;
+
 
 
 // function checkGameStatus() {
