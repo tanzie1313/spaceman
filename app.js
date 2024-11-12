@@ -97,6 +97,7 @@ let wordHint; // the hint for the word to guess
 let correctGuesses; // 
 let gameWon = false;
 let correctLetters;
+let wordBankCreated = false;
 /*------------------------ Cached Element References ------------------------*/
 const wordDispleyEl = document.querySelector('.word-display');
 const chancesDisplayEl = document.querySelector('.nums-chances');
@@ -181,7 +182,7 @@ function showGameOver(result) {
 
 function resetGame() {
     init();
-    playAgainBtn.style.display = 'none';
+    // playAgainBtn.style.display = 'none';
 }
 document.addEventListener('keydown', (event) => {
     const letter = event.key.toLowerCase();
@@ -246,6 +247,7 @@ function renderWord() {
     }
 }
 function renderWordBank() {
+    wordBankCreated = true;
     const wordBankEl = document.querySelector('.word-bank');
     for (let i = 0; i < wordList.length; i++) {
         const word = wordList[i].word;
@@ -253,11 +255,14 @@ function renderWordBank() {
         wordDiv.innerText = word;
         wordBankEl.appendChild(wordDiv);
     }
+
 }
 function init() {
     chooseWord();
     renderWord();
-    renderWordBank();
+    if (wordBankCreated == false) {
+       renderWordBank();
+    }
     chancesLeftEl.textContent = remainingGuesses;
     hintEl.textContent = wordHint;
 }

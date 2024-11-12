@@ -105,6 +105,7 @@ h2 {
   justify-content: center;
   align-items: center;
   margin-bottom: 7px;
+  max-width: 100%;
 }
 
 .game-result {
