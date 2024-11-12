@@ -99,6 +99,7 @@ h2 {
   pointer-events: none;
   opacity: 0;
 }
+
 .game-box .word-bank {
   display: flex;
   gap: 5px;

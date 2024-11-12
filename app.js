@@ -131,9 +131,9 @@ function chooseWord() {
     gameResultEl.classList.add('hidden');
 
 
-    
+
 }
-function showHint() {  
+function showHint() {
     wordHint = wordList[randomIndex].hint;
     hintEl.textContent = wordHint;
 
@@ -145,13 +145,13 @@ function showGameOver(result) {
     gameWonEl.textContent = resultText;
     if (result) {
         gameWonTextEl.textContent = "You saved the spaceman!";
-         const gameWon = new Audio("./all-i-do-is-win.mp3");
-         gameWon.play();
+        const gameWon = new Audio("./all-i-do-is-win.mp3");
+        gameWon.play();
     }
     else {
         gameWonTextEl.textContent = `${resultText} The word was: `;
         let gameWonAnswerEl = document.createElement('b');
-         const gameEnd = new Audio("./trumpet-wah-wah-wrong-answer-comedy.mp3");
+        const gameEnd = new Audio("./trumpet-wah-wah-wrong-answer-comedy.mp3");
         gameEnd.play();
         gameWonAnswerEl.textContent = correctAnswer;
         gameWonTextEl.appendChild(gameWonAnswerEl);
@@ -182,7 +182,7 @@ function showGameOver(result) {
 
 function resetGame() {
     init();
-  
+
 }
 document.addEventListener('keydown', (event) => {
     const letter = event.key.toLowerCase();
@@ -211,14 +211,14 @@ function handleKeyClicked(key) {
 
     }
     if (currentWord.includes(key) && guessedLetters.includes(key)) {
-      
+
         correctGuesses.push(key);
-        
+
     }
     const currentKey = document.getElementById(key);
     currentKey.classList.add('hidden');
     renderWord();
-    
+
     if (currentWord.length === correctGuesses.length) {
         gameResultEl.classList.remove('hidden');
         showGameOver(true);
@@ -261,7 +261,7 @@ function init() {
     chooseWord();
     renderWord();
     if (wordBankCreated == false) {
-       renderWordBank();
+        renderWordBank();
     }
     chancesLeftEl.textContent = remainingGuesses;
     hintEl.textContent = wordHint;
