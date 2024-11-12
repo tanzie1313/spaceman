@@ -182,7 +182,7 @@ function showGameOver(result) {
 
 function resetGame() {
     init();
-    // playAgainBtn.style.display = 'none';
+  
 }
 document.addEventListener('keydown', (event) => {
     const letter = event.key.toLowerCase();
