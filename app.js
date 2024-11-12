@@ -65,8 +65,8 @@ const wordList = [
         hint: 'a celestial object consisting of a nucleus of ice and dust'
     },
     {
-        word: 'asteroid',
-        hint: 'a small rocky body orbiting the sun'
+        word: 'orbit',
+        hint: 'the curved path of a celestial object or spacecraft around a star, planet, or moon'
     },
     {
         word: 'nebula',
@@ -106,7 +106,9 @@ const gameResultEl = document.querySelector('.game-result');
 const keyEl = document.querySelectorAll('.key');
 const gameWonEl = document.querySelector('.content h4');
 const gameWonTextEl = document.querySelector('.content p');
- const chancesLeftEl = document.querySelector(' .num-chances b');
+const chancesLeftEl = document.querySelector(' .num-chances b');
+
+
 /*-------------------------------- Functions --------------------------------*/
 
 
@@ -126,42 +128,33 @@ function chooseWord() {
     }
     )
     gameResultEl.classList.add('hidden');
-    // hintEl.classList.remove('hidden');
 
-    console.log(currentWord);
-    console.log(wordHint);
+
+    
 }
-function showHint() {  //generate random word  from wordlist and a hint
+function showHint() {  
     wordHint = wordList[randomIndex].hint;
     hintEl.textContent = wordHint;
 
 }
-// guessed letters correct = display letter
-// let wordDisipleyEl = ;
 
-
-
-// function checkGameStatus() {
-
-    // if (wrongGuesses === 6) {
-    //     showGameOver(false);
-    // } else if (gameWon) {
-    //     showGameOver(true);
-    // }
-
-  //not correct revist after work
 function showGameOver(result) {
     const resultText = result ? 'You Win!' : 'Game Over!';
     const correctAnswer = currentWord;
     gameWonEl.textContent = resultText;
-    if (result) { 
+    if (result) {
         gameWonTextEl.textContent = "You saved the spaceman!";
+         const gameWon = new Audio("./all-i-do-is-win.mp3");
+         gameWon.play();
     }
-    else { 
-    gameWonTextEl.textContent = `${resultText} The word was: `;
-    let gameWonAnswerEl = document.createElement('b');
-    gameWonAnswerEl.textContent = correctAnswer;
-    gameWonTextEl.appendChild(gameWonAnswerEl);
+    else {
+        gameWonTextEl.textContent = `${resultText} The word was: `;
+        let gameWonAnswerEl = document.createElement('b');
+         const gameEnd = new Audio("./trumpet-wah-wah-wrong-answer-comedy.mp3");
+        gameEnd.play();
+        gameWonAnswerEl.textContent = correctAnswer;
+        gameWonTextEl.appendChild(gameWonAnswerEl);
+
     }
 }
 
@@ -175,10 +168,10 @@ function showGameOver(result) {
                 wrongLetters.push(letter);
                 remainingGuesses--;
             }
-            // render();
+
         }
 
-        // render();
+
 
         if (remainingGuesses <= 0 || !currentWord.split('').some(letter => !guessedLetters.includes(letter))) {
             playAgainBtn.style.display = 'block';
@@ -198,22 +191,13 @@ document.addEventListener('keydown', (event) => {
 });
 playAgainBtn.addEventListener('click', resetGame);
 
-//need to render fuction
-// function render() {
-// wordDispleyEl.innerHTML = currentWord
-//     .split('')
-//     .map(letter => guessedLetters.includes(letter) ? letter : '_')
-//     .join('');
-// chancesDisplayEl.textContent = remainingGuesses;
-//revist after work. //populate hints //chances left decreased as number goes.(populated)
 
 
 
 
 
 
-//render the game state 
-//i want to disable button if key is already pressed
+
 function handleKeyClicked(key) {
     if (guessedLetters.includes(key)) {
         return;
@@ -226,13 +210,14 @@ function handleKeyClicked(key) {
 
     }
     if (currentWord.includes(key) && guessedLetters.includes(key)) {
-        console.log(key);
+      
         correctGuesses.push(key);
-        console.log(correctGuesses.join(''));
+        
     }
     const currentKey = document.getElementById(key);
     currentKey.classList.add('hidden');
-    console.log(key);
+    renderWord();
+    
     if (currentWord.length === correctGuesses.length) {
         gameResultEl.classList.remove('hidden');
         showGameOver(true);
@@ -245,11 +230,34 @@ function handleKeyClicked(key) {
     }
 }
 
+function renderWord() {
+    const wordDisipleyEl = document.querySelector('.word-display');
+    wordDispleyEl.innerHTML = "";
+    const wordSplit = currentWord.split("");
+    for (let i = 0; i < wordSplit.length; i++) {
+        let letterPage = wordSplit[i];
+        if (!correctGuesses.includes(wordSplit[i])) {
+            letterPage = "_";
 
-
-
+        }
+        const letterDiv = document.createElement('div');
+        letterDiv.innerText = letterPage;
+        wordDispleyEl.appendChild(letterDiv);
+    }
+}
+function renderWordBank() {
+    const wordBankEl = document.querySelector('.word-bank');
+    for (let i = 0; i < wordList.length; i++) {
+        const word = wordList[i].word;
+        const wordDiv = document.createElement('div');
+        wordDiv.innerText = word;
+        wordBankEl.appendChild(wordDiv);
+    }
+}
 function init() {
     chooseWord();
+    renderWord();
+    renderWordBank();
     chancesLeftEl.textContent = remainingGuesses;
     hintEl.textContent = wordHint;
 }
