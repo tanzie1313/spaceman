@@ -133,18 +133,18 @@ function chooseWord() {
 
 
 }
-function showHint() {
+function showHint() {  //showiing the hint with the random word generated
     wordHint = wordList[randomIndex].hint;
     hintEl.textContent = wordHint;
 
 }
 
 function showGameOver(result) {
-    const resultText = result ? 'You Win!' : 'Game Over!';
+    const resultText = result ? 'You Win!' : 'Game Over!'; //ternary operator shorthand for if-else
     const correctAnswer = currentWord;
     gameWonEl.textContent = resultText;
     if (result) {
-        gameWonTextEl.textContent = "You saved the spaceman!";
+        gameWonTextEl.textContent = "You saved the spaceman!";  //audio for win
         const gameWon = new Audio("./all-i-do-is-win.mp3");
         gameWon.play();
     }
@@ -170,14 +170,15 @@ function showGameOver(result) {
                 remainingGuesses--;
             }
 
-        }
+        }// taking the parameter letter and checking if the letter is in the guessedLetters array or wrongLetters array
+        //checks to see if letter are guessed in the current word then if not it pushed to the wrongletter and the chances are decreased
 
 
 
         if (remainingGuesses <= 0 || !currentWord.split('').some(letter => !guessedLetters.includes(letter))) {
             playAgainBtn.style.display = 'block';
         }
-    }
+    } //end of game condition... if the remaining guesses are less than or equal to 0 or the current word is split and some of the letters are not guessed then the play again button will be displayed
 
 
 function resetGame() {
@@ -188,7 +189,7 @@ document.addEventListener('keydown', (event) => {
     const letter = event.key.toLowerCase();
     if (letter.match(/^[a-z]$/)) {
         handleGuess(letter);
-    }
+    }  //if a key is pushed  and pushes it to lower case, handle guess is to updatig whethert key was clicked  was right/not then added to the right array (guessed/wrong)
 });
 playAgainBtn.addEventListener('click', resetGame);
 
